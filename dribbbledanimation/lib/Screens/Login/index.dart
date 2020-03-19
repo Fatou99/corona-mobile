@@ -53,7 +53,9 @@ class LoginScreenState extends State<LoginScreen> {
   height: deviceHeight*0.1,
   width: deviceWidth,
   child: RaisedButton(
-    onPressed: () {},
+     onPressed: () {
+      Navigator.pushNamed(context, '/cafe');
+    },
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
     padding: EdgeInsets.all(0.0),
     child: Ink(
@@ -88,7 +90,9 @@ class LoginScreenState extends State<LoginScreen> {
   height: deviceHeight*0.1,
   width: deviceWidth,
   child: RaisedButton(
-    onPressed: () {},
+     onPressed: () {
+      Navigator.pushNamed(context, '/gathering');
+    },
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
     padding: EdgeInsets.all(0.0),
     child: Ink(

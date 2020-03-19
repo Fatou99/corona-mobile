@@ -15,8 +15,7 @@ class HomeScreen extends StatefulWidget {
   HomeScreenState createState() => new HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen>
-    with TickerProviderStateMixin {
+class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   AnimationController _loginButtonController;
   var animationStatus = 0;
   @override
@@ -51,8 +50,8 @@ class HomeScreenState extends State<HomeScreen>
               ),
               new FlatButton(
                 onPressed: () =>
-                    Navigator.pushReplacementNamed(context, "/home"), 
-                    //lezem nchouf kifeh nokhrej
+                    Navigator.pushReplacementNamed(context, "/home"),
+                //lezem nchouf kifeh nokhrej
                 child: new Text('Yes'),
               ),
             ],
@@ -68,7 +67,7 @@ class HomeScreenState extends State<HomeScreen>
     return (new WillPopScope(
         onWillPop: _onWillPop,
         child: SafeArea(
-                  child: new Scaffold(
+          child: new Scaffold(
             body: new Container(
                 decoration: new BoxDecoration(
                   image: backgroundImage,
@@ -90,23 +89,54 @@ class HomeScreenState extends State<HomeScreen>
                         new Stack(
                           alignment: AlignmentDirectional.bottomCenter,
                           children: <Widget>[
+                            Positioned(
+                              top: 30,
+                              child: Container(
+                                child: Text(
+                                  "En cas d'urgence, appelez le 190",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 45,
+                              child: Container(
+                                child:
+                                    Icon(Icons.call, color: Colors.green[900]),
+                              ),
+                            ),
                             new Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
-                                SizedBox(height:150),
-                                 new Text("Covid-19",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 40.0,fontWeight: FontWeight.bold),
+                                SizedBox(height: 150),
+                                new Text(
+                                  "Billkamcha",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 40.0,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                                new Image.asset("assets/no.png",
-                                width: 140,
-                                height: 140,), 
+                                new Text(
+                                  "Covid-19",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 40.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                new Image.asset(
+                                  "assets/no.png",
+                                  width: 140,
+                                  height: 140,
+                                ),
                                 new Button()
                               ],
                             ),
                             animationStatus == 0
                                 ? new Padding(
-                                    padding: const EdgeInsets.only(bottom: 50.0),
+                                    padding:
+                                        const EdgeInsets.only(bottom: 50.0),
                                     child: new InkWell(
                                         onTap: () {
                                           setState(() {
@@ -124,8 +154,6 @@ class HomeScreenState extends State<HomeScreen>
                       ],
                     ))),
           ),
-        )
-        )
-        );
+        )));
   }
 }
