@@ -1,131 +1,249 @@
 import 'package:flutter/material.dart';
-import 'styles.dart';
-import 'loginAnimation.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/animation.dart';
-import 'dart:async';
-import '../../Components/Button.dart';
-import '../../Components/Entry.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/scheduler.dart' show timeDilation;
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key key}) : super(key: key);
   @override
-  LoginScreenState createState() => new LoginScreenState();
+  LoginScreenState createState() => LoginScreenState();
 }
 
-class LoginScreenState extends State<LoginScreen>
-    with TickerProviderStateMixin {
-  AnimationController _loginButtonController;
-  var animationStatus = 0;
+class LoginScreenState extends State<LoginScreen> {
   @override
-  void initState() {
-    super.initState();
-    _loginButtonController = new AnimationController(
-        duration: new Duration(milliseconds: 3000), vsync: this);
-  }
+  Widget build(BuildContext context) {
+    final deviceWidth = MediaQuery.of(context).size.width;
+    final deviceHeight = MediaQuery.of(context).size.height;
 
-  @override
-  void dispose() {
-    _loginButtonController.dispose();
-    super.dispose();
-  }
+   Widget openRestaurant(){
+      return Container(
+  height: deviceHeight*0.1,
+  width: deviceWidth,
+  child: RaisedButton(
+    onPressed: () {
+      Navigator.pushNamed(context, '/restaurant');
+    },
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
+    padding: EdgeInsets.all(0.0),
+    child: Ink(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(colors: [Colors.red, Color.fromRGBO(158, 14, 64, 0.5)],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+          borderRadius: BorderRadius.circular(30.0)
+      ),
+      child: Container(
+        constraints: BoxConstraints(maxWidth: deviceWidth, minHeight: deviceHeight*0.1),
+        alignment: Alignment.center,
+        child: Text(
+          "Restaurant ouvert",
+          textAlign: TextAlign.center,
+          style: TextStyle( 
+            // fontFamily: "IndieFlower",
+            fontWeight: FontWeight.bold,
+            fontSize: 35.0,
+              color: Color.fromRGBO(	49, 29, 63, 1)
+          ),
+        ),
+      ),
+    ),
+  ),
+);
+    }
 
-  Future<Null> _playAnimation() async {
-    try {
-      await _loginButtonController.forward();
-      await _loginButtonController.reverse();
-    } on TickerCanceled {}
-  }
+   Widget openCafe(){
+      return Container(
+  height: deviceHeight*0.1,
+  width: deviceWidth,
+  child: RaisedButton(
+    onPressed: () {},
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
+    padding: EdgeInsets.all(0.0),
+    child: Ink(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(colors: [Colors.red, Color.fromRGBO(158, 14, 64, 0.5)],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+          borderRadius: BorderRadius.circular(30.0)
+      ),
+      child: Container(
+        constraints: BoxConstraints(maxWidth: deviceWidth, minHeight: deviceHeight*0.1),
+        alignment: Alignment.center,
+        child: Text(
+          "Café ouvert",
+          textAlign: TextAlign.center,
+          style: TextStyle( 
+            // fontFamily: "IndieFlower",
+            fontWeight: FontWeight.bold,
+            fontSize: 35.0,
+              color: Color.fromRGBO(	49, 29, 63, 1)
+          ),
+        ),
+      ),
+    ),
+  ),
+);
+    }
 
-  Future<bool> _onWillPop() {
-    return showDialog(
-          context: context,
-          child: new AlertDialog(
-            title: new Text('Are you sure?'),
-            actions: <Widget>[
-              new FlatButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('No'),
+    Widget gathering(){
+      return Container(
+  height: deviceHeight*0.1,
+  width: deviceWidth,
+  child: RaisedButton(
+    onPressed: () {},
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
+    padding: EdgeInsets.all(0.0),
+    child: Ink(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(colors: [Colors.red, Color.fromRGBO(158, 14, 64, 0.5)],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+          borderRadius: BorderRadius.circular(30.0)
+      ),
+      child: Container(
+        constraints: BoxConstraints(maxWidth: deviceWidth, minHeight: deviceHeight*0.1),
+        alignment: Alignment.center,
+        child: Text(
+          "Rassemblement",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            // fontFamily: "IndieFlower",
+            fontWeight: FontWeight.bold,
+            fontSize: 35.0,
+              color: Color.fromRGBO(49, 29, 63, 1)
+          ),
+        ),
+      ),
+    ),
+  ),
+);
+    }
+
+
+    return SafeArea(
+        child: Scaffold( backgroundColor: 
+        Color.fromRGBO(250	,205,	211, 1),
+          appBar: AppBar(
+      centerTitle: true,
+        title: Text("covid-19" ,style: TextStyle(color: Colors.white)),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[
+              Colors.red,
+              Colors.blueGrey
+            ])          
+         ),        
+     ),      
+ 
+            // backgroundColor: 
+            // Color.fromRGBO(250	,205,	211, 1)
+            // Color.fromRGBO(221,160,221,0.6),
+          ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              Container(
+                height: deviceHeight * 0.5,
+                width: deviceWidth,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/coronavirus.jpg'),
+                      fit: BoxFit.cover),
+                ),
               ),
-              new FlatButton(
-                onPressed: () =>
-                    Navigator.pushReplacementNamed(context, "/home"), 
-                    //lezem nchouf kifeh nokhrej
-                child: new Text('Yes'),
+              // Container(
+              //   width: deviceWidth,
+              //   height: deviceHeight * 0.5,
+              //   decoration: new BoxDecoration(
+              //           gradient: new LinearGradient(
+              //         colors: <Color>[
+              //           const Color.fromRGBO(162, 146, 199, 0.7),
+              //           const Color.fromRGBO(51, 51, 63, 0.6),
+              //         ],
+              //         stops: [0.2, 1.0],
+              //         begin: const FractionalOffset(0.0, 0.0),
+              //         end: const FractionalOffset(0.0, 1.0),
+              //       )),
+              // ),
+              Container(
+                width: deviceWidth,
+                height: deviceHeight * 0.5,
+                alignment: Alignment.center,
+                color: Color.fromRGBO(221, 170, 170, 0.4),
+                child: Center(
+                  child: Text(
+                    'Que voulez-vous signaler?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 50.0,
+                         fontFamily: "MyFlutterApp",
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(	49, 29, 63, 1)),
+                  ),
+                ),
               ),
             ],
           ),
-        ) ??
-        false;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    timeDilation = 0.4;
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
-    return (new WillPopScope(
-        onWillPop: _onWillPop,
-        child: SafeArea(
-                  child: new Scaffold(
-            body: new Container(
-                decoration: new BoxDecoration(
-                  image: backgroundImage,
-                ),
-                child: new Container(
-                    decoration: new BoxDecoration(
-                        gradient: new LinearGradient(
-                      colors: <Color>[
-                        const Color.fromRGBO(162, 146, 199, 0.8),
-                        const Color.fromRGBO(51, 51, 63, 0.9),
-                      ],
-                      stops: [0.2, 1.0],
-                      begin: const FractionalOffset(0.0, 0.0),
-                      end: const FractionalOffset(0.0, 1.0),
+          SizedBox(height:10),
+          Stack(children: <Widget>[
+            Positioned(
+                child: Container(
+                    width: deviceWidth,
+                    height: deviceHeight * 0.1,
+                    child: openRestaurant())),
+            Positioned(
+              left: 20.0,
+              top: 20.0,
+              child: Icon(
+                Icons.restaurant,
+                color: Color.fromRGBO(	49, 29, 63, 1),
+                size: 35.0,
+              ),
+            )
+          ]),
+           SizedBox(height:10),
+          Stack(children: <Widget>[
+            Positioned(
+                child: Container(
+                    width: deviceWidth,
+                    height: deviceHeight * 0.1,
+                    child: openCafe())),
+            Positioned(
+              left: 20.0,
+              top: 20.0,
+              child: Icon(
+                Icons.local_cafe,
+                color: Color.fromRGBO(	49, 29, 63, 1),
+                size: 35.0,
+              ),
+            )
+          ]),
+           SizedBox(height:10),
+          Stack(children: <Widget>[
+            Positioned(
+                child: Container(
+                    width: deviceWidth,
+                    height: deviceHeight * 0.1,
+                    child: 
+                    gathering()
+                    
                     )),
-                    child: new ListView(
-                      padding: const EdgeInsets.all(0.0),
-                      children: <Widget>[
-                        new Stack(
-                          alignment: AlignmentDirectional.bottomCenter,
-                          children: <Widget>[
-                            new Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                SizedBox(height:150),
-                                 new Text("Covid-19",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 40.0,fontWeight: FontWeight.bold),
-                                ),
-                                new Image.asset("assets/no.png",
-                                width: 140,
-                                height: 140,), 
-                                new Button()
-                              ],
-                            ),
-                            animationStatus == 0
-                                ? new Padding(
-                                    padding: const EdgeInsets.only(bottom: 50.0),
-                                    child: new InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            animationStatus = 1;
-                                          });
-                                          _playAnimation();
-                                        },
-                                        child: new Entry()),
-                                  )
-                                : new StaggerAnimation(
-                                    buttonController:
-                                        _loginButtonController.view),
-                          ],
-                        ),
-                      ],
-                    ))),
-          ),
-        )
-        )
-        );
+            Positioned(
+              left: 20.0,
+              top: 20.0,
+              child: Icon(
+                Icons.people,
+                color: Color.fromRGBO(	49, 29, 63, 1),
+                size: 35.0,
+              ),
+            )
+          ]),
+        ],
+      ),
+    ));
   }
 }
