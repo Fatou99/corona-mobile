@@ -1,9 +1,9 @@
-import 'package:dribbbledanimation/Screens/remerciement.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Gathering extends StatefulWidget {
   @override
@@ -131,8 +131,42 @@ class _GatheringState extends State<Gathering> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(80.0)),
                   splashColor: Colors.red,
-                  onPressed: () => Navigator.push(context,
-                      new MaterialPageRoute(builder: (context) => MyApp())),
+                  onPressed: () {
+                    im == null
+                        ? Alert(
+                            context: context,
+                            type: AlertType.error,
+                            title: "Veuillez prendre une photo",
+                            buttons: [
+                              DialogButton(
+                                  child: Text("Ok"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  gradient: LinearGradient(colors: [
+                                    Color.fromRGBO(116, 116, 191, 1.0),
+                                    Color.fromRGBO(52, 138, 199, 1.0)
+                                  ])),
+                            ],
+                          ).show()
+                        : Alert(
+                            context: context,
+                            type: AlertType.success,
+                            title: "Merci pour votre aide !",
+                            desc: "On vous souhaite santé et bien-être",
+                            buttons: [
+                              DialogButton(
+                                  child: Text("Fermer"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  gradient: LinearGradient(colors: [
+                                    Color.fromRGBO(116, 116, 191, 1.0),
+                                    Color.fromRGBO(52, 138, 199, 1.0)
+                                  ])),
+                            ],
+                          ).show();
+                  },
                   child: Text(
                     "Envoyer",
                     style: TextStyle(fontSize: 20),

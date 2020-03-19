@@ -6,6 +6,7 @@ dependencies:
   location: ^2.5.0
   true_time: ^0.1.0
   google_maps_flutter: ^0.5.24+1
+  rflutter_alert: ^1.0.3
   flutter:
     sdk: flutter
 
