@@ -56,6 +56,12 @@
       "languageVersion": "2.0"
     },
     {
+      "name": "dio",
+      "rootUri": "file:///C:/Users/guira/Downloads/JE/mobile/installation/flutter/.pub-cache/hosted/pub.dartlang.org/dio-3.0.9",
+      "packageUri": "lib/",
+      "languageVersion": "2.4"
+    },
+    {
       "name": "flutter",
       "rootUri": "file:///C:/Users/guira/Downloads/JE/mobile/installation/flutter/packages/flutter",
       "packageUri": "lib/",
@@ -76,6 +82,18 @@
     {
       "name": "google_maps_flutter",
       "rootUri": "file:///C:/Users/guira/Downloads/JE/mobile/installation/flutter/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter-0.5.24+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "http",
+      "rootUri": "file:///C:/Users/guira/Downloads/JE/mobile/installation/flutter/.pub-cache/hosted/pub.dartlang.org/http-0.12.0+4",
+      "packageUri": "lib/",
+      "languageVersion": "2.4"
+    },
+    {
+      "name": "http_parser",
+      "rootUri": "file:///C:/Users/guira/Downloads/JE/mobile/installation/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-3.1.3",
       "packageUri": "lib/",
       "languageVersion": "2.0"
     },
@@ -218,7 +236,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2020-03-19T23:03:25.217147Z",
+  "generated": "2020-03-21T13:57:19.406691Z",
   "generator": "pub",
   "generatorVersion": "2.7.0"
 }

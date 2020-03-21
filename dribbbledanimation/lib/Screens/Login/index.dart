@@ -126,7 +126,8 @@ class LoginScreenState extends State<LoginScreen> {
     return SafeArea(
         child: Scaffold( backgroundColor: 
         Color.fromRGBO(250	,205,	211, 1),
-          appBar: AppBar(
+          appBar: AppBar(automaticallyImplyLeading: false,
+
       centerTitle: true,
         title: Text("covid-19" ,style: TextStyle(color: Colors.white)),
         flexibleSpace: Container(
@@ -155,7 +156,7 @@ class LoginScreenState extends State<LoginScreen> {
                 width: deviceWidth,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage('assets/coronavirus.jpg'),
+                      image: AssetImage('assets/docteur.jpg'),
                       fit: BoxFit.cover),
                 ),
               ),
@@ -183,7 +184,7 @@ class LoginScreenState extends State<LoginScreen> {
                     'Que voulez-vous signaler?',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 50.0,
+                        fontSize: 30.0,
                          fontFamily: "MyFlutterApp",
                         fontWeight: FontWeight.bold,
                         color: Color.fromRGBO(	49, 29, 63, 1)),

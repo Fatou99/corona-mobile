@@ -50,8 +50,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
               new FlatButton(
                 onPressed: () =>
-                    Navigator.pushReplacementNamed(context, "/home"),
-                //lezem nchouf kifeh nokhrej
+                 SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
                 child: new Text('Yes'),
               ),
             ],

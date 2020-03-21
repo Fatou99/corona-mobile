@@ -1,3 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:dribbbledanimation/api/reportApi.dart';
+import 'package:dribbbledanimation/models/rapport.dart';
+import 'package:dribbbledanimation/services/sendingReports.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,8 +19,11 @@ class Restaurant extends StatefulWidget {
 
 class _RestaurantState extends State<Restaurant> {
   @override
-  dynamic im;
+  int _id = 100;
+  File im;
   bool isGreen = false;
+  ReportServices reportServices = new ReportServices();
+  Report report = new Report();
 
   Future getLocation() async {
     Location location = new Location();
@@ -46,10 +56,16 @@ class _RestaurantState extends State<Restaurant> {
   }
 
   Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    File image = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
       im = image;
     });
+  }
+
+  void postReport(report) async {
+    Response reqResponse = await reportServices.postReport(report);
+    print(reqResponse.statusCode);
+    print(reqResponse);
   }
 
   @override
@@ -131,41 +147,66 @@ class _RestaurantState extends State<Restaurant> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(80.0)),
                   splashColor: Colors.red,
-                  onPressed: () {
-                    im == null
-                        ? Alert(
-                            context: context,
-                            type: AlertType.error,
-                            title: "Veuillez prendre une photo",
-                            buttons: [
-                              DialogButton(
-                                  child: Text("Ok"),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  gradient: LinearGradient(colors: [
-                                    Color.fromRGBO(116, 116, 191, 1.0),
-                                    Color.fromRGBO(52, 138, 199, 1.0)
-                                  ])),
-                            ],
-                          ).show()
-                        : Alert(
-                            context: context,
-                            type: AlertType.success,
-                            title: "Merci pour votre aide !",
-                            desc: "On vous souhaite santé et bien-être",
-                            buttons: [
-                              DialogButton(
-                                  child: Text("Fermer"),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  gradient: LinearGradient(colors: [
-                                    Color.fromRGBO(116, 116, 191, 1.0),
-                                    Color.fromRGBO(52, 138, 199, 1.0)
-                                  ])),
-                            ],
-                          ).show();
+                  onPressed: () async {
+                    if (im == null)
+                      Alert(
+                        context: context,
+                        type: AlertType.error,
+                        title: "Veuillez prendre une photo",
+                        buttons: [
+                          DialogButton(
+                              child: Text("Ok"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              gradient: LinearGradient(colors: [
+                                Color.fromRGBO(116, 116, 191, 1.0),
+                                Color.fromRGBO(52, 138, 199, 1.0)
+                              ])),
+                        ],
+                      ).show();
+                    else {
+                      _id++;
+                      Location location = new Location();
+                      LocationData _locationData = await location.getLocation();
+                      report.longitude = _locationData.longitude;
+                      report.latitude = _locationData.latitude;
+                      report.urlToImage = im.path;
+                      report.type = "restaurant";
+                      report.id = _id;
+                      String currentTime = DateTime.now().toString();
+                      report.time = currentTime;
+                      var data = report.toJson();
+                      var res = await CallApi().postData(data, 'rep');
+                      // Map<String, dynamic> body = json.decode(res.body);
+                      // body.forEach((k, v) => print('${k}: ${v}'));
+                      // if (body.length == 0) {
+                        // print("vide");
+                      // } else {
+                        // print("non vide");
+                      // }
+                      // var resp = await CallApi().getData('hello');
+                      // List<dynamic> body1 = json.decode(resp.body);
+                      // body1.forEach((element) => print(element));
+
+                      Alert(
+                        context: context,
+                        type: AlertType.success,
+                        title: "Merci pour votre aide !",
+                        desc: "On vous souhaite santé et bien-être",
+                        buttons: [
+                          DialogButton(
+                              child: Text("Fermer"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              gradient: LinearGradient(colors: [
+                                Color.fromRGBO(116, 116, 191, 1.0),
+                                Color.fromRGBO(52, 138, 199, 1.0)
+                              ])),
+                        ],
+                      ).show();
+                    }
                   },
                   child: Text("Envoyer"),
                 ),
