@@ -22,8 +22,7 @@ class _AutoConfinementState extends State<AutoConfinement> {
   File im;
   bool isGreen = false;
   Report report = new Report();
-int _id = 100;
-
+  int _id = 100;
 
   Future getLocation() async {
     Location location = new Location();
@@ -55,8 +54,8 @@ int _id = 100;
     //Navigator.push(context,new MaterialPageRoute(builder: (context)=> MyApp2() ));
   }
 
-   Future getImage() async {
-    File image = await ImagePicker.pickImage(source:ImageSource.camera);
+  Future getImage() async {
+    File image = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
       im = image;
     });
@@ -66,6 +65,8 @@ int _id = 100;
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
+    TextEditingController textEditingController1 = new TextEditingController();
+
     // TODO: implement build
     return SafeArea(
         child: Scaffold(
@@ -95,20 +96,39 @@ int _id = 100;
                   ),
                 ),
               ]),
+              SizedBox(height: deviceHeight * 0.01),
               Container(
-                // margin: EdgeInsets.all(3),
-                child: Column(
-                  children: <Widget>[
-                    RaisedButton(
-                      textColor: Colors.white,
-                      highlightColor: Colors.black,
-                      child: Text("Ajouter votre emplacement"),
-                      color: isGreen == true ? Colors.green : Colors.red,
-                      onPressed: getLocation,
-                    )
-                  ],
-                ),
-              ),
+                  width: 300,
+                  child: TextFormField(
+                    autovalidate: true,
+                    validator: (String value) {
+                      if (value.length == 0) {
+                        return 'Ce champs est obligatoire';
+                      }
+                      return null;
+                    },
+                    onChanged: (String value) {
+                      setState(() {
+                        report.description = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      focusColor: Colors.black,
+                      border: OutlineInputBorder(),
+                      labelText: 'Ajouter une description',
+                      labelStyle: new TextStyle(
+                        color: const Color(0xFF424242),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      hintText: 'Ajouter une description',
+                    ),
+                    autofocus: false,
+                  )),
               Stack(children: <Widget>[
                 Container(
                   margin: EdgeInsets.all(3),
@@ -142,25 +162,25 @@ int _id = 100;
                       borderRadius: BorderRadius.circular(80.0)),
                   splashColor: Colors.red,
                   onPressed: () async {
-                    if(im == null)
-                        { Alert(
-                            context: context,
-                            type: AlertType.error,
-                            title: "Veuillez prendre une photo",
-                            buttons: [
-                              DialogButton(
-                                  child: Text("Ok"),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  gradient: LinearGradient(colors: [
-                                    Color.fromRGBO(116, 116, 191, 1.0),
-                                    Color.fromRGBO(52, 138, 199, 1.0)
-                                  ])),
-                            ],
-                          ).show();}
-                        else{
-                            Location location = new Location();
+                    if (im == null) {
+                      Alert(
+                        context: context,
+                        type: AlertType.error,
+                        title: "Veuillez prendre une photo",
+                        buttons: [
+                          DialogButton(
+                              child: Text("Ok"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              gradient: LinearGradient(colors: [
+                                Color.fromRGBO(116, 116, 191, 1.0),
+                                Color.fromRGBO(52, 138, 199, 1.0)
+                              ])),
+                        ],
+                      ).show();
+                    } else {
+                      Location location = new Location();
                       LocationData _locationData = await location.getLocation();
                       report.longitude = _locationData.longitude;
                       report.latitude = _locationData.latitude;
@@ -171,23 +191,24 @@ int _id = 100;
                       report.time = currentTime;
                       var data = report.toJson();
                       var res = await CallApi().postData(data, 'rep');
-                           Alert(
-                            context: context,
-                            type: AlertType.success,
-                            title: "Merci pour votre aide !",
-                            desc: "On vous souhaite santé et bien-être",
-                            buttons: [
-                              DialogButton(
-                                  child: Text("Fermer"),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  gradient: LinearGradient(colors: [
-                                    Color.fromRGBO(116, 116, 191, 1.0),
-                                    Color.fromRGBO(52, 138, 199, 1.0)
-                                  ])),
-                            ],
-                          ).show();}
+                      Alert(
+                        context: context,
+                        type: AlertType.success,
+                        title: "Merci pour votre aide !",
+                        desc: "On vous souhaite santé et bien-être",
+                        buttons: [
+                          DialogButton(
+                              child: Text("Fermer"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              gradient: LinearGradient(colors: [
+                                Color.fromRGBO(116, 116, 191, 1.0),
+                                Color.fromRGBO(52, 138, 199, 1.0)
+                              ])),
+                        ],
+                      ).show();
+                    }
                   },
                   child: Text("Envoyer"),
                 ),

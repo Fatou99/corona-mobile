@@ -108,6 +108,26 @@ int _id = 100;
                   ],
                 ),
               ),
+              SizedBox(height: deviceHeight*0.01),
+              Container(
+                  width: 300,
+                  child: TextField(
+                    decoration: InputDecoration(
+                      focusColor: Colors.black,
+                       border: OutlineInputBorder(),
+                      labelText: 'Ajouter une description',
+                      labelStyle: new TextStyle(color: const Color(0xFF424242),),
+                   enabledBorder: UnderlineInputBorder(      
+                      borderSide: BorderSide(color: Colors.black),   
+                      ),  
+              focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                   ),  
+             
+                      hintText: 'Ajouter une description',
+                    ),
+                    autofocus: false,
+                  )),
               Stack(children: <Widget>[
                 Container(
                   margin: EdgeInsets.all(3),
