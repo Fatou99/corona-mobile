@@ -45,6 +45,13 @@ flutter:
     - assets/auto.jpeg
     - assets/couvreFeu.jpg
     - assets/quarantaine.jpg
+    - assets/team.png
+    - assets/caffe.png
+    - assets/restauu.png
+    - assets/stayhome.png
+    - assets/quarantine.jpg
+    - assets/staysafe.png
+    - assets/confinement.png
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
 

@@ -22,8 +22,7 @@ class _QuarantaineState extends State<Quarantaine> {
   File im;
   bool isGreen = false;
   Report report = new Report();
-int _id = 100;
-
+  int _id = 100;
 
   Future getLocation() async {
     Location location = new Location();
@@ -54,8 +53,8 @@ int _id = 100;
     });
   }
 
-   Future getImage() async {
-    File image = await ImagePicker.pickImage(source:ImageSource.camera);
+  Future getImage() async {
+    File image = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
       im = image;
     });
@@ -76,9 +75,14 @@ int _id = 100;
               flexibleSpace: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: <Color>[Colors.red, Colors.blueGrey]),
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[
+                      Color.fromRGBO(162, 146, 199, 0.8),
+                      Colors.pink[100],
+                      Color.fromRGBO(51, 51, 63, 0.9)
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -94,65 +98,75 @@ int _id = 100;
                   ),
                 ),
               ]),
-              Container(
-                // margin: EdgeInsets.all(3),
-                child: Column(
-                  children: <Widget>[
-                    RaisedButton(
-                      textColor: Colors.white,
-                      highlightColor: Colors.black,
-                      child: Text("Ajouter votre emplacement"),
-                      color: isGreen == true ? Colors.green : Colors.red,
-                      onPressed: getLocation,
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(height: deviceHeight*0.01),
+              SizedBox(height: deviceHeight * 0.01),
               Container(
                   width: 300,
-                  child: TextField(
+                  child: TextFormField(
+                    autovalidate: true,
+                    validator: (String value) {
+                      if (value.length == 0) {
+                        return 'Ce champs est obligatoire';
+                      }
+                      return null;
+                    },
+                    onChanged: (String value) {
+                      setState(() {
+                        report.description = value;
+                      });
+                    },
                     decoration: InputDecoration(
                       focusColor: Colors.black,
-                       border: OutlineInputBorder(),
+                      border: OutlineInputBorder(),
                       labelText: 'Ajouter une description',
-                      labelStyle: new TextStyle(color: const Color(0xFF424242),),
-                   enabledBorder: UnderlineInputBorder(      
-                      borderSide: BorderSide(color: Colors.black),   
-                      ),  
-              focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                   ),  
-             
+                      labelStyle: new TextStyle(
+                        color: const Color(0xFF424242),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
                       hintText: 'Ajouter une description',
                     ),
                     autofocus: false,
                   )),
-              Stack(children: <Widget>[
-                Container(
-                  margin: EdgeInsets.all(3),
-                  child: Center(
-                    child: Text(
-                      "Ajouter une photo",
-                      style: TextStyle(height: 5),
-                    ),
-                  ),
-                ),
-                Positioned(
-                    right: 120, top: 40, child: Icon(Icons.arrow_downward)),
-              ]),
-              GestureDetector(
-                  onTap: () {
-                    getImage();
-                  },
-                  child: Container(
-                    margin: EdgeInsets.all(10),
-                    child: im == null
-                        ? Icon(Icons.camera_alt, size: 50.0)
-                        : Icon(Icons.done, size: 50.0),
-                    height: 50,
-                    width: 50,
-                  )),
+              SizedBox(height: 20.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text("Ajouter une photo"),
+                  Text("Importer une photo"),
+                ],
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    GestureDetector(
+                        onTap: () {
+                          getImage();
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: im == null
+                              ? Icon(Icons.camera_alt, size: 50.0)
+                              : Icon(Icons.done, size: 50.0),
+                          height: 50,
+                          width: 50,
+                        )),
+                    GestureDetector(
+                        onTap: () {
+                          getImage();
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: im == null
+                              ? Icon(Icons.file_upload, size: 50.0)
+                              : Icon(Icons.done, size: 50.0),
+                          height: 50,
+                          width: 50,
+                        )),
+                  ]),
               ButtonTheme(
                 buttonColor: Colors.blueGrey,
                 minWidth: 50.0,
@@ -161,25 +175,25 @@ int _id = 100;
                       borderRadius: BorderRadius.circular(80.0)),
                   splashColor: Colors.red,
                   onPressed: () async {
-                    if(im == null)
-                        { Alert(
-                            context: context,
-                            type: AlertType.error,
-                            title: "Veuillez prendre une photo",
-                            buttons: [
-                              DialogButton(
-                                  child: Text("Ok"),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  gradient: LinearGradient(colors: [
-                                    Color.fromRGBO(116, 116, 191, 1.0),
-                                    Color.fromRGBO(52, 138, 199, 1.0)
-                                  ])),
-                            ],
-                          ).show();}
-                        else{
-                            Location location = new Location();
+                    if (im == null) {
+                      Alert(
+                        context: context,
+                        type: AlertType.error,
+                        title: "Veuillez prendre une photo",
+                        buttons: [
+                          DialogButton(
+                              child: Text("Ok"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              gradient: LinearGradient(colors: [
+                                Color.fromRGBO(116, 116, 191, 1.0),
+                                Color.fromRGBO(52, 138, 199, 1.0)
+                              ])),
+                        ],
+                      ).show();
+                    } else {
+                      Location location = new Location();
                       LocationData _locationData = await location.getLocation();
                       report.longitude = _locationData.longitude;
                       report.latitude = _locationData.latitude;
@@ -190,23 +204,24 @@ int _id = 100;
                       report.time = currentTime;
                       var data = report.toJson();
                       var res = await CallApi().postData(data, 'rep');
-                           Alert(
-                            context: context,
-                            type: AlertType.success,
-                            title: "Merci pour votre aide !",
-                            desc: "On vous souhaite santé et bien-être",
-                            buttons: [
-                              DialogButton(
-                                  child: Text("Fermer"),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  gradient: LinearGradient(colors: [
-                                    Color.fromRGBO(116, 116, 191, 1.0),
-                                    Color.fromRGBO(52, 138, 199, 1.0)
-                                  ])),
-                            ],
-                          ).show();}
+                      Alert(
+                        context: context,
+                        type: AlertType.success,
+                        title: "Merci pour votre aide !",
+                        desc: "On vous souhaite santé et bien-être",
+                        buttons: [
+                          DialogButton(
+                              child: Text("Fermer"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              gradient: LinearGradient(colors: [
+                                Color.fromRGBO(116, 116, 191, 1.0),
+                                Color.fromRGBO(52, 138, 199, 1.0)
+                              ])),
+                        ],
+                      ).show();
+                    }
                   },
                   child: Text("Envoyer"),
                 ),

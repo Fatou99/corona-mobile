@@ -76,9 +76,14 @@ class _GatheringState extends State<Gathering> {
               flexibleSpace: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: <Color>[Colors.red, Colors.blueGrey]),
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[
+                      Color.fromRGBO(162, 146, 199, 0.8),
+                      Colors.pink[100],
+                      Color.fromRGBO(51, 51, 63, 0.9)
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -94,51 +99,75 @@ class _GatheringState extends State<Gathering> {
                   ),
                 ),
               ]),
-              SizedBox(height: deviceHeight*0.01),
-              Container(
+              SizedBox(height: deviceHeight * 0.01),
+                Container(
                   width: 300,
-                  child: TextField(
+                  child: TextFormField(
+                    autovalidate: true,
+                    validator: (String value) {
+                      if (value.length == 0) {
+                        return 'Ce champs est obligatoire';
+                      }
+                      return null;
+                    },
+                    onChanged: (String value) {
+                      setState(() {
+                        report.description = value;
+                      });
+                    },
                     decoration: InputDecoration(
                       focusColor: Colors.black,
-                       border: OutlineInputBorder(),
+                      border: OutlineInputBorder(),
                       labelText: 'Ajouter une description',
-                      labelStyle: new TextStyle(color: const Color(0xFF424242),),
-                   enabledBorder: UnderlineInputBorder(      
-                      borderSide: BorderSide(color: Colors.black),   
-                      ),  
-              focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                   ),  
-             
+                      labelStyle: new TextStyle(
+                        color: const Color(0xFF424242),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
                       hintText: 'Ajouter une description',
                     ),
                     autofocus: false,
                   )),
-              Stack(children: <Widget>[
-                Container(
-                  margin: EdgeInsets.all(3),
-                  child: Center(
-                    child: Text(
-                      "Ajouter une photo",
-                      style: TextStyle(height: 5),
-                    ),
-                  ),
-                ),
-                Positioned(
-                    right: 120, top: 40, child: Icon(Icons.arrow_downward)),
-              ]),
-              GestureDetector(
-                  onTap: () {
-                    getImage();
-                  },
-                  child: Container(
-                    margin: EdgeInsets.all(10),
-                    child: im == null
-                        ? Icon(Icons.camera_alt, size: 50.0)
-                        : Icon(Icons.done, size: 50.0),
-                    height: 50,
-                    width: 50,
-                  )),
+              SizedBox(height: 20.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text("Ajouter une photo"),
+                  Text("Importer une photo"),
+                ],
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    GestureDetector(
+                        onTap: () {
+                          getImage();
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: im == null
+                              ? Icon(Icons.camera_alt, size: 50.0)
+                              : Icon(Icons.done, size: 50.0),
+                          height: 50,
+                          width: 50,
+                        )),
+                    GestureDetector(
+                        onTap: () {
+                          getImage();
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: im == null
+                              ? Icon(Icons.file_upload, size: 50.0)
+                              : Icon(Icons.done, size: 50.0),
+                          height: 50,
+                          width: 50,
+                        )),
+                  ]),
               ButtonTheme(
                 buttonColor: Colors.blueGrey,
                 minWidth: 50.0,

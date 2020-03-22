@@ -2,7 +2,6 @@ import 'package:dribbbledanimation/Screens/autoConfinement/index.dart';
 import 'package:dribbbledanimation/Screens/cafe/index.dart';
 import 'package:dribbbledanimation/Screens/rassemblement/index.dart';
 import 'package:dribbbledanimation/Screens/restaurant/index.dart';
-import 'package:dribbbledanimation/models/reportDetailPage.dart';
 import 'package:flutter/material.dart';
 import 'package:dribbbledanimation/Screens/Home/index.dart';
 import 'package:dribbbledanimation/Screens/Login/index.dart';

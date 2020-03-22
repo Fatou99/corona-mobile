@@ -12,40 +12,43 @@ class ReportRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      final deviceWidth = MediaQuery.of(context).size.width;
+    final deviceWidth = MediaQuery.of(context).size.width;
     final deviceHeight = MediaQuery.of(context).size.height;
 
     final reportThumbnail = new Container(
-      alignment: new FractionalOffset(0.0, 0.5),
-      margin: const EdgeInsets.only(left: 24.0),
-      child: Material(
-        elevation: 10.0,
-        shape:
-        //  RoundedRectangleBorder(
-        //     borderRadius: BorderRadius.only(
-        //   topRight: Radius.circular(10.0),
-        //   topLeft: Radius.circular(10.0),
-        //   bottomLeft: Radius.circular(10.0),
-        //   bottomRight: Radius.circular(10.0),
-        // )),
-         CircleBorder(),
-        clipBehavior: Clip.hardEdge,
-        color: Colors.transparent,
-        child: Ink.image(
-          image: AssetImage(rapport.image),
-          fit: BoxFit.cover,
-          width: deviceWidth,
-          height: deviceHeight * 0.4,
-          child: InkWell(
-            radius: 20.0,
-            splashColor: Colors.amber,
-  
-        // child: new Hero(
-        //     tag: 'rapport-icon-${rapport.id}',
-            // child: new Image(image: new AssetImage(rapport.image))
-            // ),
-      ),),)
-    );
+        alignment: new FractionalOffset(0.0, 0.5),
+        margin: const EdgeInsets.only(left: 24.0),
+        child: Material(
+          elevation: 10.0,
+          shape:
+
+              //  RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.only(
+              //   topRight: Radius.circular(30.0),
+              //   topLeft: Radius.circular(30.0),
+              //   bottomLeft: Radius.circular(30.0),
+              //   bottomRight: Radius.circular(30.0),
+              // )),
+
+              CircleBorder(),
+          clipBehavior: Clip.hardEdge,
+          color: Colors.transparent,
+          child: Ink.image(
+            image: AssetImage(rapport.image),
+            fit: BoxFit.cover,
+            width: deviceWidth,
+            height: deviceHeight * 0.4,
+            child: InkWell(
+              radius: 20.0,
+              splashColor: Colors.amber,
+
+              // child: new Hero(
+              //     tag: 'rapport-icon-${rapport.id}',
+              // child: new Image(image: new AssetImage(rapport.image))
+              // ),
+            ),
+          ),
+        ));
 
     final reportCard = new Container(
       margin: const EdgeInsets.only(left: 72.0, right: 24.0),
@@ -66,7 +69,8 @@ class ReportRow extends StatelessWidget {
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            new Text(rapport.nom, style: TextStyle(color: reportTitle, fontSize: 20)),
+            new Text(rapport.nom,
+                style: TextStyle(color: reportTitle, fontSize: 20)),
             // new Text(planet.location, style: Theme.TextStyles.planetLocation),
             new Container(
                 color: const Color(0xFF00C6FF),
@@ -94,8 +98,8 @@ class ReportRow extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-
-        body: new Container(color: Colors.grey,
+        body: new Container(
+          color: Colors.grey,
           height: 120.0,
           margin: const EdgeInsets.only(top: 16.0, bottom: 8.0),
           child: new FlatButton(
@@ -104,8 +108,7 @@ class ReportRow extends StatelessWidget {
               children: <Widget>[
                 reportCard,
                 Positioned.fill(
-                  right: deviceWidth*0.6,
-                  child: reportThumbnail), 
+                    right: deviceWidth * 0.6, child: reportThumbnail),
               ],
             ),
           ),

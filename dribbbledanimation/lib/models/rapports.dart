@@ -15,37 +15,37 @@ class RapportsUI {
           size: 50.0,
         ),
         url: "/restaurant",
-        image: "assets/restaurant.jpg"),
+        image: "assets/restauu.png"),
     const Rapport(
         id: "2",
         nom: "Café ouvert",
         icon: Icon(Icons.local_cafe),
         url: "/cafe",
-        image: "assets/cafe.jpg"),
+        image: "assets/caffe.png"),
     const Rapport(
         id: "3",
         nom: "Rassemblement",
         icon: Icon(Icons.people),
         url: "/gathering",
-        image: "assets/rassemblement.jpg"),
+        image: "assets/team.png"),
     const Rapport(
         id: "4",
         nom: "Dépassement de couvre-feu",
         icon: Icon(Icons.warning),
         url: "/couvreFeu",
-        image: "assets/couvreFeu.jpg"),
+        image: "assets/staysafe.png"),
     const Rapport(
         id: "5",
         nom: "Dépassement de mise en quarantaine",
         icon: Icon(Icons.error),
         url: "/quarantaine",
-        image: "assets/quarantaine.jpg"),
+        image: "assets/quarantine.jpg"),
     const Rapport(
         id: "6",
         nom: "Dépassement de l'auto-confinement",
         icon: Icon(Icons.home),
         url: "/autoConfinement",
-        image: "assets/auto.jpeg"),
+        image: "assets/confinement.png"),
   ];
 
   static Rapport getRapportById(id) {
