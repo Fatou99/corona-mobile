@@ -1,3 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:dribbbledanimation/api/reportApi.dart';
+import 'package:dribbbledanimation/models/rapport.dart';
+import 'package:dribbbledanimation/services/sendingReports.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,8 +19,10 @@ class Gathering extends StatefulWidget {
 
 class _GatheringState extends State<Gathering> {
   @override
-  dynamic im;
+  int _id;
+  File im;
   bool isGreen = false;
+  Report report = new Report();
 
   Future getLocation() async {
     Location location = new Location();
@@ -80,25 +89,31 @@ class _GatheringState extends State<Gathering> {
                   width: deviceWidth,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage('assets/restaurant.jpg'),
+                        image: AssetImage('assets/rassemblement.jpg'),
                         fit: BoxFit.cover),
                   ),
                 ),
               ]),
+              SizedBox(height: deviceHeight*0.01),
               Container(
-                // margin: EdgeInsets.all(3),
-                child: Column(
-                  children: <Widget>[
-                    RaisedButton(
-                      textColor: Colors.white,
-                      highlightColor: Colors.black,
-                      child: Text("Ajouter votre emplacement"),
-                      color: isGreen == true ? Colors.green : Colors.red,
-                      onPressed: getLocation,
-                    )
-                  ],
-                ),
-              ),
+                  width: 300,
+                  child: TextField(
+                    decoration: InputDecoration(
+                      focusColor: Colors.black,
+                       border: OutlineInputBorder(),
+                      labelText: 'Ajouter une description',
+                      labelStyle: new TextStyle(color: const Color(0xFF424242),),
+                   enabledBorder: UnderlineInputBorder(      
+                      borderSide: BorderSide(color: Colors.black),   
+                      ),  
+              focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                   ),  
+             
+                      hintText: 'Ajouter une description',
+                    ),
+                    autofocus: false,
+                  )),
               Stack(children: <Widget>[
                 Container(
                   margin: EdgeInsets.all(3),
@@ -131,41 +146,54 @@ class _GatheringState extends State<Gathering> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(80.0)),
                   splashColor: Colors.red,
-                  onPressed: () {
-                    im == null
-                        ? Alert(
-                            context: context,
-                            type: AlertType.error,
-                            title: "Veuillez prendre une photo",
-                            buttons: [
-                              DialogButton(
-                                  child: Text("Ok"),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  gradient: LinearGradient(colors: [
-                                    Color.fromRGBO(116, 116, 191, 1.0),
-                                    Color.fromRGBO(52, 138, 199, 1.0)
-                                  ])),
-                            ],
-                          ).show()
-                        : Alert(
-                            context: context,
-                            type: AlertType.success,
-                            title: "Merci pour votre aide !",
-                            desc: "On vous souhaite santé et bien-être",
-                            buttons: [
-                              DialogButton(
-                                  child: Text("Fermer"),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  gradient: LinearGradient(colors: [
-                                    Color.fromRGBO(116, 116, 191, 1.0),
-                                    Color.fromRGBO(52, 138, 199, 1.0)
-                                  ])),
-                            ],
-                          ).show();
+                  onPressed: () async {
+                    if (im == null) {
+                      Alert(
+                        context: context,
+                        type: AlertType.error,
+                        title: "Veuillez prendre une photo",
+                        buttons: [
+                          DialogButton(
+                              child: Text("Ok"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              gradient: LinearGradient(colors: [
+                                Color.fromRGBO(116, 116, 191, 1.0),
+                                Color.fromRGBO(52, 138, 199, 1.0)
+                              ])),
+                        ],
+                      ).show();
+                    } else {
+                      Location location = new Location();
+                      LocationData _locationData = await location.getLocation();
+                      report.longitude = _locationData.longitude;
+                      report.latitude = _locationData.latitude;
+                      report.urlToImage = im.path;
+                      report.type = "rassemblement";
+                      report.id = _id;
+                      String currentTime = DateTime.now().toString();
+                      report.time = currentTime;
+                      var data = report.toJson();
+                      var res = await CallApi().postData(data, 'rep');
+                      Alert(
+                        context: context,
+                        type: AlertType.success,
+                        title: "Merci pour votre aide !",
+                        desc: "On vous souhaite santé et bien-être",
+                        buttons: [
+                          DialogButton(
+                              child: Text("Fermer"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              gradient: LinearGradient(colors: [
+                                Color.fromRGBO(116, 116, 191, 1.0),
+                                Color.fromRGBO(52, 138, 199, 1.0)
+                              ])),
+                        ],
+                      ).show();
+                    }
                   },
                   child: Text(
                     "Envoyer",

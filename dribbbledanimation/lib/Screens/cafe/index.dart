@@ -1,3 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:dribbbledanimation/api/reportApi.dart';
+import 'package:dribbbledanimation/models/rapport.dart';
+import 'package:dribbbledanimation/services/sendingReports.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,8 +19,11 @@ class Cafe extends StatefulWidget {
 
 class _CafeState extends State<Cafe> {
   @override
-  dynamic im;
+  File im;
   bool isGreen = false;
+  Report report = new Report();
+int _id = 100;
+
 
   Future getLocation() async {
     Location location = new Location();
@@ -45,8 +55,8 @@ class _CafeState extends State<Cafe> {
     //Navigator.push(context,new MaterialPageRoute(builder: (context)=> MyApp2() ));
   }
 
-  Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+   Future getImage() async {
+    File image = await ImagePicker.pickImage(source:ImageSource.camera);
     setState(() {
       im = image;
     });
@@ -131,9 +141,9 @@ class _CafeState extends State<Cafe> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(80.0)),
                   splashColor: Colors.red,
-                  onPressed: () {
-                    im == null
-                        ? Alert(
+                  onPressed: () async {
+                    if(im == null)
+                        { Alert(
                             context: context,
                             type: AlertType.error,
                             title: "Veuillez prendre une photo",
@@ -148,8 +158,20 @@ class _CafeState extends State<Cafe> {
                                     Color.fromRGBO(52, 138, 199, 1.0)
                                   ])),
                             ],
-                          ).show()
-                        : Alert(
+                          ).show();}
+                        else{
+                            Location location = new Location();
+                      LocationData _locationData = await location.getLocation();
+                      report.longitude = _locationData.longitude;
+                      report.latitude = _locationData.latitude;
+                      report.urlToImage = im.path;
+                      report.type = "cafe";
+                      report.id = _id;
+                      String currentTime = DateTime.now().toString();
+                      report.time = currentTime;
+                      var data = report.toJson();
+                      var res = await CallApi().postData(data, 'rep');
+                           Alert(
                             context: context,
                             type: AlertType.success,
                             title: "Merci pour votre aide !",
@@ -165,7 +187,7 @@ class _CafeState extends State<Cafe> {
                                     Color.fromRGBO(52, 138, 199, 1.0)
                                   ])),
                             ],
-                          ).show();
+                          ).show();}
                   },
                   child: Text("Envoyer"),
                 ),

@@ -19,11 +19,13 @@ class Restaurant extends StatefulWidget {
 
 class _RestaurantState extends State<Restaurant> {
   @override
-  int _id = 100;
+  
   File im;
   bool isGreen = false;
   ReportServices reportServices = new ReportServices();
   Report report = new Report();
+int _id = 100;
+
 
   Future getLocation() async {
     Location location = new Location();
