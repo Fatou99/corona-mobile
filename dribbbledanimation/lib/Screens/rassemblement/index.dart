@@ -19,9 +19,7 @@ class Gathering extends StatefulWidget {
 
 class _GatheringState extends State<Gathering> {
   @override
-  int _id;
   File im;
-  bool isGreen = false;
   Report report = new Report();
 
   Future getLocation() async {
@@ -49,13 +47,18 @@ class _GatheringState extends State<Gathering> {
     print(_locationData);
     print(DateTime.now());
     setState(() {
-      isGreen = true;
     });
-    //Navigator.push(context,new MaterialPageRoute(builder: (context)=> MyApp2() ));
   }
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    setState(() {
+      im = image;
+    });
+  }
+
+   Future setImage() async {
+    File image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       im = image;
     });
@@ -103,13 +106,6 @@ class _GatheringState extends State<Gathering> {
                 Container(
                   width: 300,
                   child: TextFormField(
-                    autovalidate: true,
-                    validator: (String value) {
-                      if (value.length == 0) {
-                        return 'Ce champs est obligatoire';
-                      }
-                      return null;
-                    },
                     onChanged: (String value) {
                       setState(() {
                         report.description = value;
@@ -149,25 +145,26 @@ class _GatheringState extends State<Gathering> {
                         },
                         child: Container(
                           margin: EdgeInsets.all(10),
-                          child: im == null
-                              ? Icon(Icons.camera_alt, size: 50.0)
-                              : Icon(Icons.done, size: 50.0),
+                          child:  Icon(Icons.camera_alt, size: 50.0)
+                             ,
                           height: 50,
                           width: 50,
                         )),
                     GestureDetector(
                         onTap: () {
-                          getImage();
+                          setImage();
                         },
                         child: Container(
                           margin: EdgeInsets.all(10),
-                          child: im == null
-                              ? Icon(Icons.file_upload, size: 50.0)
-                              : Icon(Icons.done, size: 50.0),
+                          child:  Icon(Icons.file_upload, size: 50.0)
+                              ,
                           height: 50,
                           width: 50,
                         )),
                   ]),
+                   Container(
+                   child: im ==null ?
+                   Icon(Icons.sync):Image.file(im)),
               ButtonTheme(
                 buttonColor: Colors.blueGrey,
                 minWidth: 50.0,
@@ -198,9 +195,9 @@ class _GatheringState extends State<Gathering> {
                       LocationData _locationData = await location.getLocation();
                       report.longitude = _locationData.longitude;
                       report.latitude = _locationData.latitude;
-                      report.urlToImage = im.path;
+                       String base64Image = base64Encode(im.readAsBytesSync());
+                      report.urlToImage = base64Image;
                       report.type = "rassemblement";
-                      report.id = _id;
                       String currentTime = DateTime.now().toString();
                       report.time = currentTime;
                       var data = report.toJson();

@@ -50,7 +50,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
               new FlatButton(
                 onPressed: () =>
-                 SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
+                    SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
                 child: new Text('Yes'),
               ),
             ],
@@ -61,6 +61,9 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final deviceWidth = MediaQuery.of(context).size.width;
+    final deviceHeight = MediaQuery.of(context).size.height;
+
     timeDilation = 0.4;
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     return (new WillPopScope(
@@ -124,11 +127,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       fontSize: 40.0,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                new Image.asset(
-                                  "assets/no.png",
-                                  width: 140,
-                                  height: 140,
-                                ),
+
                                 new Button()
                               ],
                             ),
@@ -148,8 +147,38 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 : new StaggerAnimation(
                                     buttonController:
                                         _loginButtonController.view),
+                                        
                           ],
                         ),
+                        SizedBox(height:deviceHeight*0.015),
+                        Container(
+                                  color: Color.fromRGBO(255, 255, 255, 0.5),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      new Image.asset(
+                                        "assets/ministere.png",
+                                        width: deviceWidth*0.15,
+                                        height: deviceHeight*0.15,
+                                      ),
+                                       new Image.asset(
+                                        "assets/junior2.png",
+                                        width: deviceWidth*0.15,
+                                        height: deviceHeight*0.15,
+                                      ),
+                                      new Image.asset(
+                                        "assets/logo.png",
+                                        width: deviceWidth*0.15,
+                                        height: deviceHeight*0.15,
+                                      ),
+                                      new Image.asset(
+                                        "assets/obs.png",
+                                        width: deviceWidth*0.15,
+                                        height: deviceHeight*0.15,
+                                      ),
+                                    ],
+                                  ),
+                                ),
                       ],
                     ))),
           ),

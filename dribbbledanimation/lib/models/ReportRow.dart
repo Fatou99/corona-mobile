@@ -22,13 +22,6 @@ class ReportRow extends StatelessWidget {
           elevation: 10.0,
           shape:
 
-              //  RoundedRectangleBorder(
-              //     borderRadius: BorderRadius.only(
-              //   topRight: Radius.circular(30.0),
-              //   topLeft: Radius.circular(30.0),
-              //   bottomLeft: Radius.circular(30.0),
-              //   bottomRight: Radius.circular(30.0),
-              // )),
 
               CircleBorder(),
           clipBehavior: Clip.hardEdge,
@@ -42,10 +35,7 @@ class ReportRow extends StatelessWidget {
               radius: 20.0,
               splashColor: Colors.amber,
 
-              // child: new Hero(
-              //     tag: 'rapport-icon-${rapport.id}',
-              // child: new Image(image: new AssetImage(rapport.image))
-              // ),
+        
             ),
           ),
         ));
@@ -71,26 +61,11 @@ class ReportRow extends StatelessWidget {
           children: <Widget>[
             new Text(rapport.nom,
                 style: TextStyle(color: reportTitle, fontSize: 20)),
-            // new Text(planet.location, style: Theme.TextStyles.planetLocation),
             new Container(
                 color: const Color(0xFF00C6FF),
                 width: 24.0,
                 height: 1.0,
                 margin: const EdgeInsets.symmetric(vertical: 8.0)),
-            //logos:
-            // new Row(
-            //   children: <Widget>[
-            //     new Icon(Icons.location_on, size: 14.0,
-            //       color: Theme.Colors.planetDistance),
-            //     new Text(
-            //       planet.distance, style: Theme.TextStyles.planetDistance),
-            //     new Container(width: 24.0),
-            //     new Icon(Icons.flight_land, size: 14.0,
-            //       color: Theme.Colors.planetDistance),
-            //     new Text(
-            //       planet.gravity, style: Theme.TextStyles.planetDistance),
-            //   ],
-            // )
           ],
         ),
       ),
@@ -117,8 +92,4 @@ class ReportRow extends StatelessWidget {
     );
   }
 
-  // _navigateTo(context, String id) {
-  //   Routes.navigateTo(context, '/detail/${rapport.id}',
-  //       transition: TransitionType.fadeIn);
-  // }
 }

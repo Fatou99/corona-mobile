@@ -20,10 +20,10 @@ class Restaurant extends StatefulWidget {
 class _RestaurantState extends State<Restaurant> {
   @override
   File im;
-  bool isGreen = false;
+ 
   ReportServices reportServices = new ReportServices();
   Report report = new Report();
-  int _id = 100;
+
 
   Future getLocation() async {
     Location location = new Location();
@@ -50,9 +50,8 @@ class _RestaurantState extends State<Restaurant> {
     print(_locationData);
     print(DateTime.now());
     setState(() {
-      isGreen = true;
+    
     });
-    //Navigator.push(context,new MaterialPageRoute(builder: (context)=> MyApp2() ));
   }
 
   Future getImage() async {
@@ -61,11 +60,11 @@ class _RestaurantState extends State<Restaurant> {
       im = image;
     });
   }
-
-  void postReport(report) async {
-    Response reqResponse = await reportServices.postReport(report);
-    print(reqResponse.statusCode);
-    print(reqResponse);
+  Future setImage() async {
+    File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      im = image;
+    });
   }
 
   @override
@@ -110,13 +109,6 @@ class _RestaurantState extends State<Restaurant> {
               Container(
                   width: 300,
                   child: TextFormField(
-                    autovalidate: true,
-                    validator: (String value) {
-                      if (value.length == 0) {
-                        return 'Ce champs est obligatoire';
-                      }
-                      return null;
-                    },
                     onChanged: (String value) {
                       setState(() {
                         report.description = value;
@@ -156,25 +148,26 @@ class _RestaurantState extends State<Restaurant> {
                         },
                         child: Container(
                           margin: EdgeInsets.all(10),
-                          child: im == null
-                              ? Icon(Icons.camera_alt, size: 50.0)
-                              : Icon(Icons.done, size: 50.0),
+                          child: Icon(Icons.camera_alt, size: 50.0)
+                             ,
                           height: 50,
                           width: 50,
                         )),
                     GestureDetector(
                         onTap: () {
-                          getImage();
+                          setImage();
                         },
                         child: Container(
                           margin: EdgeInsets.all(10),
-                          child: im == null
-                              ? Icon(Icons.file_upload, size: 50.0)
-                              : Icon(Icons.done, size: 50.0),
+                          child:Icon(Icons.file_upload, size: 50.0)
+                             ,
                           height: 50,
                           width: 50,
                         )),
                   ]),
+                     Container(
+                   child: im ==null ?
+                   Icon(Icons.sync):Image.file(im)),
               ButtonTheme(
                 buttonColor: Colors.blueGrey,
                 minWidth: 50.0,
@@ -201,28 +194,17 @@ class _RestaurantState extends State<Restaurant> {
                         ],
                       ).show();
                     else {
-                      _id++;
                       Location location = new Location();
                       LocationData _locationData = await location.getLocation();
                       report.longitude = _locationData.longitude;
                       report.latitude = _locationData.latitude;
-                      report.urlToImage = im.path;
+                       String base64Image = base64Encode(im.readAsBytesSync());
+                      report.urlToImage = base64Image;
                       report.type = "restaurant";
-                      report.id = _id;
                       String currentTime = DateTime.now().toString();
                       report.time = currentTime;
                       var data = report.toJson();
                       var res = await CallApi().postData(data, 'rep');
-                      // Map<String, dynamic> body = json.decode(res.body);
-                      // body.forEach((k, v) => print('${k}: ${v}'));
-                      // if (body.length == 0) {
-                      // print("vide");
-                      // } else {
-                      // print("non vide");
-                      // }
-                      // var resp = await CallApi().getData('hello');
-                      // List<dynamic> body1 = json.decode(resp.body);
-                      // body1.forEach((element) => print(element));
 
                       Alert(
                         context: context,

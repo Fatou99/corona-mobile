@@ -42,7 +42,7 @@ flutter:
     - assets/rassemblement.jpg
     - assets/docteur.jpg
     - assets/restau.jpg
-    - assets/auto.jpeg
+    - assets/auto.jpg
     - assets/couvreFeu.jpg
     - assets/quarantaine.jpg
     - assets/team.png
@@ -52,6 +52,13 @@ flutter:
     - assets/quarantine.jpg
     - assets/staysafe.png
     - assets/confinement.png
+    - assets/ministere.png
+    - assets/obs.png
+    - assets/logo.png
+    - assets/junior.png
+    - assets/junior2.png
+    - assets/a.png
+    - assets/logoM.png
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
 

@@ -20,9 +20,7 @@ class AutoConfinement extends StatefulWidget {
 class _AutoConfinementState extends State<AutoConfinement> {
   @override
   File im;
-  bool isGreen = false;
   Report report = new Report();
-  int _id = 100;
 
   Future getLocation() async {
     Location location = new Location();
@@ -49,9 +47,7 @@ class _AutoConfinementState extends State<AutoConfinement> {
     print(_locationData);
     print(DateTime.now());
     setState(() {
-      isGreen = true;
     });
-    //Navigator.push(context,new MaterialPageRoute(builder: (context)=> MyApp2() ));
   }
 
   Future getImage() async {
@@ -61,7 +57,12 @@ class _AutoConfinementState extends State<AutoConfinement> {
     });
   }
 
-  
+  Future setImage() async {
+    File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      im = image;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +99,7 @@ class _AutoConfinementState extends State<AutoConfinement> {
                   width: deviceWidth,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage('assets/auto.jpeg'),
+                        image: AssetImage('assets/auto.jpg'),
                         fit: BoxFit.cover),
                   ),
                 ),
@@ -107,13 +108,6 @@ class _AutoConfinementState extends State<AutoConfinement> {
               Container(
                   width: 300,
                   child: TextFormField(
-                    autovalidate: true,
-                    validator: (String value) {
-                      if (value.length == 0) {
-                        return 'Ce champs est obligatoire';
-                      }
-                      return null;
-                    },
                     onChanged: (String value) {
                       setState(() {
                         report.description = value;
@@ -147,34 +141,31 @@ class _AutoConfinementState extends State<AutoConfinement> {
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                 
-                        GestureDetector(
-                            onTap: () {
-                              getImage();
-                            },
-                            child: Container(
-                              margin: EdgeInsets.all(10),
-                              child: im == null
-                                  ? Icon(Icons.camera_alt, size: 50.0)
-                                  : Icon(Icons.done, size: 50.0),
-                              height: 50,
-                              width: 50,
-                            )),
-                 
-                        GestureDetector(
-                            onTap: () {
-                              getImage();
-                            },
-                            child: Container(
-                              margin: EdgeInsets.all(10),
-                              child: im == null
-                                  ? Icon(Icons.file_upload, size: 50.0)
-                                  : Icon(Icons.done, size: 50.0),
-                              height: 50,
-                              width: 50,
-                            )),
-                    
+                    GestureDetector(
+                        onTap: () {
+                          getImage();
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          child:Icon(Icons.camera_alt, size: 50.0),
+                          height: 50,
+                          width: 50,
+                        )),
+                    GestureDetector(
+                        onTap: () {
+                          setImage();
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          child:  Icon(Icons.file_upload, size: 50.0),         
+                          height: 50,
+                          width: 50,
+                        )),
+
                   ]),
+                 Container(
+                   child: im ==null ?
+                   Icon(Icons.sync):Image.file(im)),
               ButtonTheme(
                 buttonColor: Colors.blueGrey,
                 minWidth: 50.0,
@@ -183,6 +174,24 @@ class _AutoConfinementState extends State<AutoConfinement> {
                       borderRadius: BorderRadius.circular(80.0)),
                   splashColor: Colors.red,
                   onPressed: () async {
+                    if (report.description == "") {
+                      Alert(
+                        context: context,
+                        type: AlertType.error,
+                        title: "Veuillez ajouter une description",
+                        buttons: [
+                          DialogButton(
+                              child: Text("Ok"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              gradient: LinearGradient(colors: [
+                                Color.fromRGBO(116, 116, 191, 1.0),
+                                Color.fromRGBO(52, 138, 199, 1.0)
+                              ])),
+                        ],
+                      ).show();
+                    }
                     if (im == null) {
                       Alert(
                         context: context,
@@ -205,9 +214,9 @@ class _AutoConfinementState extends State<AutoConfinement> {
                       LocationData _locationData = await location.getLocation();
                       report.longitude = _locationData.longitude;
                       report.latitude = _locationData.latitude;
-                      report.urlToImage = im.path;
+                      String base64Image = base64Encode(im.readAsBytesSync());
+                      report.urlToImage = base64Image;
                       report.type = "Auto confinement";
-                      report.id = _id;
                       String currentTime = DateTime.now().toString();
                       report.time = currentTime;
                       var data = report.toJson();

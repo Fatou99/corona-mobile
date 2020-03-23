@@ -5,7 +5,3 @@ DecorationImage backgroundImage = new DecorationImage(
   fit: BoxFit.cover,
 );
 
-DecorationImage no = new DecorationImage(
-  image: new ExactAssetImage('assets/no.png'),
-  fit: BoxFit.cover,
-);
