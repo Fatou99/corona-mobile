@@ -21,7 +21,7 @@ class LoginScreenState extends State<LoginScreen> {
         child: new ListView.builder(
           shrinkWrap: true,
           itemExtent: 160.0,
-          itemCount: 6,
+          itemCount: 7,
           itemBuilder: (_, index) => new ReportRow(RapportsUI.rapports[index]),
         ),
 

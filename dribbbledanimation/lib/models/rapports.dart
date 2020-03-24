@@ -46,6 +46,12 @@ class RapportsUI {
         icon: Icon(Icons.home),
         url: "/autoConfinement",
         image: "assets/confinement.png"),
+    const Rapport(
+        id: "7",
+        nom: "Monopolisation des produits de base",
+        icon: Icon(Icons.home),
+        url: "/monopole",
+        image: "assets/cash.png"),
   ];
 
   static Rapport getRapportById(id) {

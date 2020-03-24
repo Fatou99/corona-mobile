@@ -8,6 +8,7 @@ import 'package:dribbbledanimation/Screens/Login/index.dart';
 import 'package:fluro/fluro.dart';
 
 import 'Screens/couvreFeu/index.dart';
+import 'Screens/monopole/index.dart';
 import 'Screens/quarantaine/index.dart';
 
 
@@ -28,6 +29,7 @@ class Routes {
       '/couvreFeu' : (context) =>CouvreFeu(),
       '/quarantaine' : (context) => Quarantaine(),
       '/autoConfinement': (context) => AutoConfinement(),
+      '/monopole' : (context) => Monopole(),
     },
     initialRoute: '/home',
  title: "Dribbble Animation App",
